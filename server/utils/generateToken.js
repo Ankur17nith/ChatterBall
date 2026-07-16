@@ -4,7 +4,6 @@ const jwt= require('jsonwebtoken');
 function setUser(user){
     return jwt.sign({
         _id: user._id,
-        email: user.email,
 
     }, process.env.SECRET_KEY,
     {expiresIn: process.env.JWT_EXPIRE})

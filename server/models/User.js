@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema({
     name:{
@@ -15,32 +16,40 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 6,
+        select: false
     },
     avatorColor:{
         type:String,
-        required: true,
+        default: ()=>`#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`
     },
     publicKey:{
         type: String,
-        default:""
     },
     lastSeen:{
         type: String,
         default: Date.now,
     },
-    isOnline:{
-        type: Boolean,
-        default: false,
-    }
 }, {timestamps: true});
 
 
 
 UserSchema.pre("save",  async function (next){
-    if(!this.isModified("password")) return;
+    if(!this.isModified("password")) return next();
+
+    if(this.isNew){
+        const {publicKey, privateKey} = crypto.generateKeyPairSync('rsa',{
+            modulusLength: 2040,
+            publicKeyEncoding:{type:'spki', format: 'pm'},
+            privateKeyEncoding: {tyep: 'pkcs8', format: 'pem'}
+        })
+        this.publicKey = publicKey,
+        this._privateKey= privateKey
+
+    }
 
     const salt= await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+    next();
 })
 
 

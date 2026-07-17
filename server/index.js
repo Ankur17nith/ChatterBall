@@ -1,12 +1,13 @@
-require("dotenv").config({ path: "./server/.env" });
+dotenv.config()
 const mongoose = require('mongoose')
 const cors = require('cors')
 const authRoutes = require("./routes/authRoutes")
+const cookieParser = require('cookie-parser')
 const connectDB = require('./config/db')
 const express = require('express');
 const app= express();
 
-dotenv.config()
+
 
 
 

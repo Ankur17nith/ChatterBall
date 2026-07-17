@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
         minlength: 6,
         select: false
     },
-    avatorColor:{
+    avatarColor:{
         type:String,
         default: ()=>`#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`
     },
@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
     },
     lastSeen:{
-        type: String,
+        type: Date,
         default: Date.now,
     },
 }, {timestamps: true});
@@ -38,9 +38,9 @@ UserSchema.pre("save",  async function (next){
 
     if(this.isNew){
         const {publicKey, privateKey} = crypto.generateKeyPairSync('rsa',{
-            modulusLength: 2040,
-            publicKeyEncoding:{type:'spki', format: 'pm'},
-            privateKeyEncoding: {tyep: 'pkcs8', format: 'pem'}
+            modulusLength: 2048,
+            publicKeyEncoding:{type:'spki', format: 'pem'},
+            privateKeyEncoding: {type: 'pkcs8', format: 'pem'}
         })
         this.publicKey = publicKey,
         this._privateKey= privateKey

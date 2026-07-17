@@ -11,6 +11,14 @@ async function handleUserRegister(req, res){
         })
     }
 
+    const exisingUser = await User.findOne({email});
+    if(existingUser){
+        return res.status(400).json({
+            success: false,
+            message: "Email already existed"
+        })
+    }
+
     const user = await User.create({name, email, password});
 
     const privateKey= user._privateKey;
@@ -23,7 +31,7 @@ async function handleUserRegister(req, res){
         httpOnly: true,
         secure: process.env.NODE_ENV ==="production",
         sameSite: 'strict',
-        maxAge: 7*24*60*1000      //7 days
+        maxAge: 7*24*60*60*1000      //7 days
     })
 
 
@@ -72,7 +80,7 @@ async function handleUserLogin(req, res){
 
         if(!isMatch){
             return res.status(401).json({
-                success: flse,
+                success: false,
                 message: 'Invalid email or password'
             })
         }
@@ -90,8 +98,8 @@ async function handleUserLogin(req, res){
 
         // return user data and private key
 
-        return res.status(201).json({
-            sucess: true,
+        return res.status(200).json({
+            success: true,
             user:{
                 _id: user._id,
                 name: user.name,

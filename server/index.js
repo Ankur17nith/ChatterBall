@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 const mongoose = require('mongoose')
 const cors = require('cors')
 const authRoutes = require("./routes/authRoutes")
+const roomRoutes = require("./routes/roomRoutes")
 const cookieParser = require('cookie-parser')
 const connectDB = require('./config/db')
 const express = require('express');
@@ -21,6 +22,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
 
 app.use('/api/auth', authRoutes)
+app.use("/api/rooms", roomRoutes)
 
 app.get('/',(req, res)=>{
     res.json({message: 'Chatterball API is running'})

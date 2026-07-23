@@ -25,7 +25,7 @@ app.use('/api/auth', authRoutes)
 app.use("/api/rooms", roomRoutes)
 
 app.get('/',(req, res)=>{
-    res.json({message: 'Chatterball API is running'})
+    return res.json({message: 'Chatterball API is running'})
 })
 
 const PORT= process.env.PORT || 8000;

@@ -133,25 +133,25 @@ async function handleUserLogOut(req, res){
     })
 }
 
-// // ─── GET CURRENT USER ─────────────────────────────────────────
-// // Used by React on app load to check if user is still logged in
-// const getMe = async (req, res) => {
-//   // req.user is already set by authMiddleware
-//   return res.status(200).json({
-//     success: true,
-//     user: {
-//       _id: req.user._id,
-//       name: req.user.name,
-//       email: req.user.email,
-//       avatarColor: req.user.avatarColor,
-//       publicKey: req.user.publicKey
-//     }
-//   })
-// }
+// ─── GET CURRENT USER ─────────────────────────────────────────
+// Used by React on app load to check if user is still logged in
+const getMe = async (req, res) => {
+  return res.status(200).json({
+    success: true,
+    user: {
+      _id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      avatarColor: req.user.avatarColor,
+      publicKey: req.user.publicKey
+    }
+  })
+}
 
 
 module.exports= {
     handleUserLogOut,
     handleUserLogin,
-    handleUserRegister
+    handleUserRegister,
+    getMe
 }

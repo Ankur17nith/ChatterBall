@@ -7,11 +7,20 @@ const cookieParser = require('cookie-parser')
 const connectDB = require('./config/db')
 const express = require('express');
 const app= express();
-
+const {Server}= require('socket.io')
+const http= require('http')
 
 dotenv.config();
 
+const httpServer = http.createServer(app);
 
+const io = new Server(httpServer,{
+    cors:{
+        origin: process.env.CLIENT_URL,
+        credentials: true
+    },
+    transports: ["websocket", "polling"]
+})
 
 app.use(cors({
     origin: process.env.CLIENT_URL,

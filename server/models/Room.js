@@ -1,10 +1,11 @@
 const mongoose= require('mongoose');
 const { nanoid } = require("nanoid");
+const User= require('./User');
 
 const RoomSchema= new mongoose.Schema({
     name:{
         type: String,
-        required: [, "Room Name is required"]
+        required: [true, "Room Name is required"]
     },
     description:{
         type:String,

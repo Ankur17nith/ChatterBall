@@ -10,7 +10,6 @@ async function translateMessage(text, targetLanguage){
                 target: targetLanguage
             }
         )
-
         return response.data.translatedTest;
     } catch (error) {
         console.error("Translation Error:", error.message);

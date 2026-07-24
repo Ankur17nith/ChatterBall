@@ -119,10 +119,10 @@ async function leaveRoom(req, res){
         }
 
         const isMember= room.members.some(  
-            member => member.toString === req.user._id.toString
+            member => member.toString === req.user._id.toString()
         )
 
-        if(!member){
+        if(!isMember){
             return res.status(400).json({
                 success: false,
                 message: "You are not the member of this room"

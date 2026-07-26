@@ -20,6 +20,6 @@ export const AuthProvider = (props) =>{
     )
 }
 
-export function useAuth(){
+export function UseAuth(){
     return useContext(AuthContext);
 }
